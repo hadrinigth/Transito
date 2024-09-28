@@ -1,0 +1,71 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Transito.QuizMain">
+    <StackLayout>
+        <AbsoluteLayout>
+            <Button Text="Bom Teste"
+                    Margin="10"
+                    WidthRequest="100"
+                    HeightRequest="50"
+                    BackgroundColor="LimeGreen"
+                    AbsoluteLayout.LayoutBounds="0.5, 0, AutoSize, AutoSize"
+                    AbsoluteLayout.LayoutFlags="PositionProportional" />
+        </AbsoluteLayout>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Image 
+                   x:Name="QuizImage"
+                   Source="Resources/Images/Quiz/Img1.png"
+                   WidthRequest="300"
+                   HeightRequest="300"
+                   Aspect="AspectFit"
+                   VerticalOptions="StartAndExpand"
+                   HorizontalOptions="CenterAndExpand"
+                   Grid.Row="0"/>
+
+            <StackLayout Grid.Row="1">
+                <Button 
+                    x:Name="Altenativa_1"
+                    Text="Altenativa 1" 
+                    Clicked="AltenativaCheck"
+                    BackgroundColor="LightGreen"
+                    Margin="10"/>
+                <Button 
+                    x:Name="Altenativa_2"
+                    Text="Altenativa 2" 
+                    Clicked="AltenativaCheck"
+                    BackgroundColor="LightGreen"
+                    Margin="10"/>
+                <Button 
+                    x:Name="Altenativa_3"
+                    Text="Altenativa 3" 
+                    Clicked="AltenativaCheck"
+                    BackgroundColor="LightGreen"
+                    Margin="10"/>
+                <Button 
+                    x:Name="Altenativa_4"
+                    Text="Altenativa 4" 
+                    Clicked="AltenativaCheck" 
+                    BackgroundColor="LightGreen"
+                    Margin="10"/>
+            </StackLayout>
+
+            <AbsoluteLayout Grid.Row="2">
+                <Button Text="Next"
+                        Margin="10"
+                        WidthRequest="100"
+                        HeightRequest="50"
+                        BackgroundColor="LimeGreen"
+                        AbsoluteLayout.LayoutBounds="1, 0.5, AutoSize, AutoSize"
+                        AbsoluteLayout.LayoutFlags="PositionProportional" />
+            </AbsoluteLayout>
+        </Grid>
+    </StackLayout>
+</ContentPage>
