@@ -1,86 +1,110 @@
 using Transito.Componente;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Maui.Controls;
 
 namespace Transito
 {
     public partial class QuizMain : ContentPage
     {
-        private Random random = new Random();
-        private List<QuizQuestion> questions;
-        private List<string> AltenativaErrada; 
-        private QuizQuestion currentQuestion;
+        private readonly Random random = new Random(); // Gerador de números aleatórios
+        private List<QuizQuestion> questions; // Lista de perguntas
+        private QuizQuestion currentQuestion; // Pergunta atual
+
+        public List<string> Alternatives { get; set; } = new List<string>(); // Alternativas para exibição
 
         public QuizMain()
         {
-            InitializeComponent();
-            LoadQuestions();
-            LoadWrongOptions();
-            DisplayRandomQuestion();
+            InitializeComponent(); // Inicializa a interface
+            InitializeQuestions(); // Inicializa as questões
+            DisplayRandomQuestion(); // Exibe a primeira pergunta
         }
 
-        private void LoadQuestions()
+        // Inicializando as questões com alternativas erradas
+        private void InitializeQuestions()
         {
-            questions = new List<QuizQuestion> 
+            questions = new List<QuizQuestion>
             {
-                new QuizQuestion("Resources/Images/Quiz/Img1.png", "Correct Answer 1"),
-                new QuizQuestion("path/to/image2.png", "Correct Answer 2"),
-                // Adicione mais perguntas conforme necessário
+                new QuizQuestion("Resources/Images/Reg/r1.jpg", "Resposta Correta",
+                    new List<string> { "Alternativa Errada 1", "Alternativa Errada 2", "Alternativa Errada 3" }),
+
+                new QuizQuestion("Resources/Images/Reg/r2.jpg", "Resposta Correta",
+                    new List<string> { "Alternativa Errada 4", "Alternativa Errada 5", "Alternativa Errada 6" })
             };
         }
 
-        private void LoadWrongOptions()
+        // Classe de cada pergunta, incluindo as alternativas erradas
+        public class QuizQuestion
         {
-            AltenativaErrada = new List<string>
+            public string ImagePath { get; set; }
+            public string CorrectAnswer { get; set; }
+            public List<string> WrongAnswers { get; set; }
+
+            public QuizQuestion(string imagePath, string correctAnswer, List<string> wrongAnswers)
             {
-                "Wrong Option 1", "Wrong Option 2", "Wrong Option 3", "Wrong Option 4",
-                // Adicione mais opções erradas conforme necessário
-            };
+                ImagePath = imagePath;
+                CorrectAnswer = correctAnswer;
+                WrongAnswers = wrongAnswers;
+            }
         }
 
+        // Exibe a pergunta aleatória e mistura as alternativas
         private void DisplayRandomQuestion()
         {
-            currentQuestion = questions[random.Next(questions.Count)];
+            if (questions == null || questions.Count == 0) return;
 
-            string imagePath = Path.Combine("Resources", "Images", "Quiz",  currentQuestion.ImagePath);
+            // Escolhe uma pergunta aleatória
+            var randomIndex = random.Next(questions.Count);
+            currentQuestion = questions[randomIndex];
 
-            QuizImage.Source = ImageSource.FromFile(imagePath);
+            // Mistura a resposta correta com as alternativas erradas
+            var allAnswers = currentQuestion.WrongAnswers
+                                        .Concat(new List<string> { currentQuestion.CorrectAnswer })
+                                        .OrderBy(x => random.Next())
+                                        .ToList();
 
-            var options = new List<string> { currentQuestion.CorrectAnswer };
-            options.AddRange(AltenativaErrada.OrderBy(x => random.Next()).Take(3));
-            options = options.OrderBy(x => random.Next()).ToList();
+            // Atualiza as alternativas para exibição
+            Alternatives = allAnswers;
 
-            Altenativa_1.Text = options[0];
-            Altenativa_2.Text = options[1];
-            Altenativa_3.Text = options[2];
-            Altenativa_4.Text = options[3];
+            // Atualiza a imagem e as alternativas no UI
+            QuizImage.Source = currentQuestion.ImagePath;
+            Alternativa_1.Text = Alternatives[0];
+            Alternativa_2.Text = Alternatives[1];
+            Alternativa_3.Text = Alternatives[2];
+            Alternativa_4.Text = Alternatives[3];
         }
 
-        private void AltenativaCheck(object sender, EventArgs e)
+        // Verifica se a resposta escolhida está correta
+        private void AlternativaCheck(object sender, EventArgs e)
         {
             var button = sender as Button;
-            if (button.Text == currentQuestion.CorrectAnswer)
+            if (button == null) return;
+
+            var selectedAnswer = button.Text;
+
+            // Verifica se a resposta está correta
+            if (selectedAnswer == currentQuestion.CorrectAnswer)
             {
-                var popup = new RespostaPop("parabéns!!");
+                // Popup de sucesso
+                var popup = new RespostaPop("Parabéns!!");
                 popup.MostraPopUp(this);
             }
             else
             {
+                // Popup de erro
                 var popup = new RespostaPop("Tente Novamente!!");
                 popup.MostraPopUp(this);
             }
 
+            // Exibe a próxima pergunta após a resposta
             DisplayRandomQuestion();
         }
 
-        public class QuizQuestion
+        // Função para ir para a próxima pergunta
+        private void NextButton_Clicked(object sender, EventArgs e)
         {
-            public string ImagePath { get; }
-            public string CorrectAnswer { get; }
-
-            public QuizQuestion(string imagePath, string correctAnswer)
-            {
-                ImagePath = imagePath;
-                CorrectAnswer = correctAnswer;
-            }
+            DisplayRandomQuestion();
         }
     }
 }
