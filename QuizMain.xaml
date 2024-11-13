@@ -3,19 +3,40 @@
              x:Class="Transito.QuizMain">
 
     <StackLayout>
+        <!-- Contadores com bordas pretas -->
+        <StackLayout Orientation="Horizontal" Spacing="30" HorizontalOptions="Center" Padding="10">
+            <Frame Style="{StaticResource ButtonLikeLabelFrame}">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Padding="14,10">
+                    <!-- Ícone -->
+                    <Image Source="err.png" Style="{StaticResource ButtonIconStyle}" />
+
+                    <!-- Texto -->
+                    <Label x:Name="Errada"  Text="0" Style="{StaticResource ButtonLikeLabel}" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Frame para Erradas -->
+            <Frame Style="{StaticResource ButtonLikeLabelFrame}">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center" Padding="14,10">
+                    <!-- Ícone -->
+                    <Image Source="cert.png" Style="{StaticResource ButtonIconStyle}" />
+
+                    <!-- Texto -->
+                    <Label x:Name="Certa" Text="0" Style="{StaticResource ButtonLikeLabel}" BindingContextChanged="Label_BindingContextChanged" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- Row for image -->
                 <RowDefinition Height="*"/>
-                <!-- Row for buttons -->
                 <RowDefinition Height="Auto"/>
-                <!-- Row for Next button -->
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <!-- Image at the top -->
-            <Image 
-                   x:Name="QuizImage"
+            <!-- Imagem do Quiz -->
+            <Image x:Name="QuizImage" 
                    WidthRequest="300"
                    HeightRequest="300"
                    Aspect="AspectFit"
@@ -23,49 +44,61 @@
                    HorizontalOptions="CenterAndExpand"
                    Grid.Row="0"/>
 
-            <!-- Answer buttons in the middle -->
+            <!-- Botões de Respostas com bordas pretas -->
             <StackLayout Grid.Row="1" Spacing="10" Padding="10">
-                <Button 
-                    x:Name="Alternativa_1"
-                    Text="Alternativa 1" 
-                    Clicked="AlternativaCheck"
-                    BackgroundColor="LightGreen" 
-                    VerticalOptions="Center" />
-
-                <Button 
-                    x:Name="Alternativa_2"
-                    Text="Alternativa 2" 
-                    Clicked="AlternativaCheck"
-                    BackgroundColor="LightGreen" 
-                    VerticalOptions="Center" />
-
-                <Button 
-                    x:Name="Alternativa_3"
-                    Text="Alternativa 3" 
-                    Clicked="AlternativaCheck"
-                    BackgroundColor="LightGreen" 
-                    VerticalOptions="Center" />
-
-                <Button 
-                    x:Name="Alternativa_4"
-                    Text="Alternativa 4" 
-                    Clicked="AlternativaCheck"
-                    BackgroundColor="LightGreen" 
-                    VerticalOptions="Center" />
+                <Button x:Name="Alternativa_1"
+                        Text="Alternativa 1"
+                        Clicked="AlternativaCheck"
+                        BackgroundColor="{StaticResource Secondary}" 
+                        TextColor="{StaticResource White}"
+                        BorderColor="Black"
+                        BorderWidth="2"
+                        VerticalOptions="Center" />
+                <Button x:Name="Alternativa_2"
+                        Text="Alternativa 2"
+                        Clicked="AlternativaCheck"
+                        BackgroundColor="{StaticResource Secondary}" 
+                        TextColor="{StaticResource White}"
+                        BorderColor="Black"
+                        BorderWidth="2"
+                        VerticalOptions="Center" />
+                <Button x:Name="Alternativa_3"
+                        Text="Alternativa 3"
+                        Clicked="AlternativaCheck"
+                        BackgroundColor="{StaticResource Secondary}" 
+                        TextColor="{StaticResource White}"
+                        BorderColor="Black"
+                        BorderWidth="2"
+                        VerticalOptions="Center" />
+                <Button x:Name="Alternativa_4"
+                        Text="Alternativa 4"
+                        Clicked="AlternativaCheck"
+                        BackgroundColor="{StaticResource Secondary}" 
+                        TextColor="{StaticResource White}"
+                        BorderColor="Black"
+                        BorderWidth="2"
+                        VerticalOptions="Center" />
             </StackLayout>
 
-            <!-- Next button at the bottom -->
-            <Button 
-                x:Name="NextButton"
-                Clicked="NextButton_Clicked"
-                Text="Next"
-                Margin="10"
-                WidthRequest="100"
-                HeightRequest="50"
-                BackgroundColor="LimeGreen"
-                VerticalOptions="End"
-                HorizontalOptions="Center"
-                Grid.Row="2" />
+            <!-- Botão de Próxima Pergunta com borda preta -->
+            <Frame CornerRadius="25"
+                   BackgroundColor="{StaticResource Primary}"
+                   Padding="10"
+                   HorizontalOptions="Center"
+                   VerticalOptions="End"
+                   BorderColor="Black"
+                   
+                   Grid.Row="2">
+                <Button x:Name="NextButton"
+                        Clicked="NextButton_Clicked"
+                        Text="Próxima"
+                        WidthRequest="70"
+                        HeightRequest="30"
+                        BackgroundColor="Transparent" 
+                        TextColor="{StaticResource White}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center" />
+            </Frame>
         </Grid>
     </StackLayout>
 </ContentPage>

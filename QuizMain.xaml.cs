@@ -9,6 +9,8 @@ namespace Transito
         private QuizQuestion currentQuestion; // Pergunta atual
 
         public List<string> Alternatives { get; set; } = new List<string>(); // Alternativas para exibição
+        private int counterAcerto = 0;
+        private int counterErr = 0;
 
         public QuizMain()
         {
@@ -224,6 +226,8 @@ namespace Transito
             Alternativa_4.Text = Alternatives[3];
         }
 
+
+   
         // Verifica se a resposta escolhida está correta
         private void AlternativaCheck(object sender, EventArgs e)
         {
@@ -236,15 +240,19 @@ namespace Transito
             if (selectedAnswer == currentQuestion.CorrectAnswer)
             {
                 // Popup de sucesso
+                counterAcerto++;
                 var popup = new RespostaPop("Parabéns!!");
                 popup.MostraPopUp(this);
             }
             else
             {
                 // Popup de erro
+                counterErr++;
                 var popup = new RespostaPop("Tente Novamente!!");
                 popup.MostraPopUp(this);
             }
+            Certa.Text = $"{counterAcerto}";
+            Errada.Text = $"{counterErr}";
 
             // Exibe a próxima pergunta após a resposta
             DisplayRandomQuestion();
@@ -254,6 +262,11 @@ namespace Transito
         private void NextButton_Clicked(object sender, EventArgs e)
         {
             DisplayRandomQuestion();
+        }
+
+        private void Label_BindingContextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
